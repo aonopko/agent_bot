@@ -4,7 +4,7 @@ import asyncpg
 from asyncpg import Connection
 from asyncpg.pool import Pool
 
-from var_for_db import DB_NAME, DB_PASSWORD, DB_USER, DB_HOST
+from .var_for_db import DB_NAME, DB_PASSWORD, DB_USER, DB_HOST
 
 
 class Database:
@@ -34,3 +34,23 @@ class Database:
         """
         async with self.pool.acquire() as connection:
             connection: Connection
+            async with connection.transaction():
+                if fetch:
+                    result = await connection.fetch(command, *args)
+                elif fetchval:
+                    result = await connection.fetchval(command, *args)
+                elif fetchrow:
+                    result = await connection.fetchrow(command, *args)
+                elif execute:
+                    result = await connection.execute(command, *args)
+            return result
+
+    async def create_table_agent(self):
+        sql = """
+        CREATE TABLE IF NOT EXISTS Agent (
+        id SERIAL PRIMARY KEY,
+        full_name VARCHAR(255) NOT NULL,
+        telegram_id BIGINT NOT NULL
+        );
+        """
+        await self.execute(sql, execute=True)

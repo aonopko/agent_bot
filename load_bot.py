@@ -1,20 +1,19 @@
+from loguru import logger
+
 from aiogram import executor
 
-import logging
-
-from hendlers import dp
-
 from create_bot import db
+from hendlers import dp
 
 
 async def on_startup(dispatcher):
-    logging.info('Создаем подключение')
+    logger.info('Создаем подключение')
     await db.create()
 
-
-
-
+    logger.info('Создаем таблицу')
+    await db.create_table_agent()
+    logger.info('Готово')
 
 
 if __name__ == '__main__':
-    executor.start_polling(dp, skip_updates=True)
+    executor.start_polling(dp, skip_updates=True, on_startup=on_startup)
