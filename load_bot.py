@@ -14,6 +14,10 @@ async def on_startup(dispatcher):
     await db.create_table_agent()
     logger.info('Готово')
 
+    logger.info('Создаем таблицу маршрута')
+    await db.create_table_route_sheet()
+    logger.info('Готово')
+
 
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True, on_startup=on_startup)

@@ -54,3 +54,14 @@ class Database:
         );
         """
         await self.execute(sql, execute=True)
+
+    async def create_table_route_sheet(self):
+        sql = """
+        CREATE TABLE IF NOT EXISTS Route_sheet (
+        date DATE NOT NULL,
+        initial_readings INT,
+        final_readings INT,
+        agent_id INT REFERENCES Agent(id)
+        );
+        """
+        await self.execute(sql, execute=True)
