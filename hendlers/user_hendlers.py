@@ -1,10 +1,21 @@
-from create_bot import dp, bot
+import asyncpg.exceptions
 from aiogram import types
+from aiogram.dispatcher.filters import Command
+from keybords.reply_keybords import menu
+from create_bot import dp, db
 
 
-@dp.message_handler(text="/start")
+@dp.message_handler(Command("start"))
 async def start(message: types.Message):
-    chat_id = message.chat.id
-    text = message.text
-    await bot.send_message(chat_id=chat_id, text=text)
-    await message.answer(text)
+    await message.answer('HI AGENT', reply_markup=menu)
+
+
+@dp.message_handler(text="ROUT")
+async def rout(message: types.Message):
+    await message.answer(f'{message.from_user.id}')
+    await db.add_agent(
+        full_name=message.from_user.full_name,
+        telegram_id=message.from_user.id
+    )
+
+    await message.answer(f"HI Agent, {message.from_user.full_name}!")

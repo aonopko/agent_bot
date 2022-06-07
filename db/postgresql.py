@@ -50,7 +50,7 @@ class Database:
         CREATE TABLE IF NOT EXISTS Agent (
         id SERIAL PRIMARY KEY,
         full_name VARCHAR(255) NOT NULL,
-        telegram_id BIGINT NOT NULL
+        telegram_id BIGINT NOT NULL UNIQUE
         );
         """
         await self.execute(sql, execute=True)
@@ -65,3 +65,10 @@ class Database:
         );
         """
         await self.execute(sql, execute=True)
+
+    async def add_rout(self, initial_readings, final_readings, agent_id):
+        pass
+
+    async def add_agent(self, full_name, telegram_id):
+        sql = "INSERT INTO Agent(full_name, telegram_id) VALUES($1, $2)"
+        return await self.execute(sql, full_name, telegram_id, execute=True)
