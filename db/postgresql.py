@@ -61,13 +61,17 @@ class Database:
         date DATE NOT NULL,
         initial_readings INT,
         final_readings INT,
-        agent_id INT REFERENCES Agent(id)
+        agent_id INT REFERENCES Agent(telegram_id)
         );
         """
         await self.execute(sql, execute=True)
 
-    async def add_rout(self, initial_readings, final_readings, agent_id):
-        pass
+    async def add_rout(self, initial_readings, final_readings, telegram_id):
+        sql = "INSERT INTO Rout_sheet(initial_readings, final_readings, agent_id)" \
+              "VALUES($1, $2, $3)"
+        return await self.execute(sql, initial_readings,
+                                  final_readings, telegram_id, execute=True)
+
 
     async def add_agent(self, full_name, telegram_id):
         sql = "INSERT INTO Agent(full_name, telegram_id) VALUES($1, $2)"
