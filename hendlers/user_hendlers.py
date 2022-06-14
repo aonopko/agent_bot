@@ -23,15 +23,19 @@ async def new_agent(message: types.Message):
         await message.reply('Agent is add')
 
 
-@dp.message_handler(text="add rout")
+
+
+@dp.message_handler(text="add route")
 async def new_rout(message: types.Message):
+    initial_readings = message.text
+    final_readings = message.text
     try:
-        await db.add_rout(
-            initial_readings=message.from_user,
-            final_readings=message.from_user,
-            telegram_id=message.from_user.id)
+        await db.add_route(
+            initial_readings=initial_readings,
+            final_readings=final_readings)
     except UniqueViolationError:
         await bot.send_message(message.from_user.id,
                                f"Agent {message.from_user.id} exists ")
     else:
-        await message.reply('Agent is add')
+        await message.reply('route is add')
+

@@ -5,7 +5,7 @@ menu = ReplyKeyboardMarkup(
     keyboard=[
         [
             KeyboardButton(text='add agent'),
-            KeyboardButton(text='add rout')
+            KeyboardButton(text='add route')
         ]
     ],
     resize_keyboard=True

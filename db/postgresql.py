@@ -47,7 +47,7 @@ class Database:
 
     async def create_table_agent(self):
         sql = """
-        CREATE TABLE IF NOT EXISTS Agent (
+        CREATE TABLE IF NOT EXISTS agent (
         id SERIAL PRIMARY KEY,
         full_name VARCHAR(255) NOT NULL,
         telegram_id BIGINT NOT NULL UNIQUE
@@ -57,22 +57,23 @@ class Database:
 
     async def create_table_route_sheet(self):
         sql = """
-        CREATE TABLE IF NOT EXISTS Route_sheet (
-        date DATE NOT NULL,
+        CREATE TABLE IF NOT EXISTS route_sheet (
+        date DATE DEFAULT NOW(),
         initial_readings INT,
-        final_readings INT,
-        agent_id INT REFERENCES Agent(telegram_id)
+        final_readings INT
         );
         """
         await self.execute(sql, execute=True)
 
-    async def add_rout(self, initial_readings, final_readings, telegram_id):
-        sql = "INSERT INTO Rout_sheet(initial_readings, final_readings, agent_id)" \
-              "VALUES($1, $2, $3)"
-        return await self.execute(sql, initial_readings,
-                                  final_readings, telegram_id, execute=True)
+    async def add_route(self, initial_readings, final_readings):
+        sql = "INSERT INTO route_sheet(initial_readings, final_readings) VALUES($1, $2)"
+        return await self.execute(sql, initial_readings, final_readings, execute=True)
 
 
     async def add_agent(self, full_name, telegram_id):
-        sql = "INSERT INTO Agent(full_name, telegram_id) VALUES($1, $2)"
+        sql = "INSERT INTO agent(full_name, telegram_id) VALUES($1, $2)"
         return await self.execute(sql, full_name, telegram_id, execute=True)
+
+    async def select_all_agents(self):
+        sql = "SELECT * FROM agent"
+        return await self.execute(sql, fetch=True)
