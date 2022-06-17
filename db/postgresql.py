@@ -69,7 +69,6 @@ class Database:
         sql = "INSERT INTO route_sheet(initial_readings, final_readings) VALUES($1, $2)"
         return await self.execute(sql, initial_readings, final_readings, execute=True)
 
-
     async def add_agent(self, full_name, telegram_id):
         sql = "INSERT INTO agent(full_name, telegram_id) VALUES($1, $2)"
         return await self.execute(sql, full_name, telegram_id, execute=True)
