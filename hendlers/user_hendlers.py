@@ -52,9 +52,12 @@ async def answer_final_readings(message: types.Message,
         data["final_readings"] = answer
     initial_readings = data.get("initial_readings")
     final_readings = data.get("final_readings")
+    difference_readings = int(final_readings) - int(initial_readings)
     try:
         await db.add_route(initial_readings=int(initial_readings),
-                           final_readings=int(final_readings))
+                           final_readings=int(final_readings),
+                           id_agent=message.from_user.id,
+                           difference_readings=difference_readings)
     except DataError:
         await bot.send_message(message.from_user.id, "Error")
 
@@ -63,4 +66,3 @@ async def answer_final_readings(message: types.Message,
     await message.answer(f"{data}")
 
     await state.finish()
-

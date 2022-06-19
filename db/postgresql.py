@@ -1,9 +1,7 @@
 from typing import Union
-
 import asyncpg
 from asyncpg import Connection
 from asyncpg.pool import Pool
-
 from .var_for_db import DB_NAME, DB_PASSWORD, DB_USER, DB_HOST
 
 
@@ -48,9 +46,8 @@ class Database:
     async def create_table_agent(self):
         sql = """
         CREATE TABLE IF NOT EXISTS agent (
-        id SERIAL PRIMARY KEY,
         full_name VARCHAR(255) NOT NULL,
-        telegram_id BIGINT NOT NULL UNIQUE
+        telegram_id  BIGINT UNIQUE
         );
         """
         await self.execute(sql, execute=True)
@@ -58,16 +55,21 @@ class Database:
     async def create_table_route_sheet(self):
         sql = """
         CREATE TABLE IF NOT EXISTS route_sheet (
+        id_agent BIGINT,
         date DATE DEFAULT NOW(),
-        initial_readings INT,
-        final_readings INT
+        initial_readings BIGINT,
+        final_readings BIGINT,
+        difference_readings BIGINT
         );
         """
         await self.execute(sql, execute=True)
 
-    async def add_route(self, initial_readings, final_readings):
-        sql = "INSERT INTO route_sheet(initial_readings, final_readings) VALUES($1, $2)"
-        return await self.execute(sql, initial_readings, final_readings, execute=True)
+    async def add_route(self, initial_readings, final_readings, id_agent,
+                        difference_readings):
+        sql = "INSERT INTO route_sheet(initial_readings, final_readings, id_agent," \
+              "difference_readings)VALUES($1, $2, $3, $4)"
+        return await self.execute(sql, initial_readings, final_readings,
+                                  id_agent, difference_readings, execute=True)
 
     async def add_agent(self, full_name, telegram_id):
         sql = "INSERT INTO agent(full_name, telegram_id) VALUES($1, $2)"
