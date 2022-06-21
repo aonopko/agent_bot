@@ -61,8 +61,5 @@ async def answer_final_readings(message: types.Message,
     except DataError:
         await bot.send_message(message.from_user.id, "Error")
 
-    await message.answer(f"data is enter : {initial_readings}")
-    await message.answer(f"data is enter: {final_readings}")
-    await message.answer(f"{data}")
-
+    await message.answer("data is enter")
     await state.finish()
