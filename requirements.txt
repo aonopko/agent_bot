@@ -5,3 +5,4 @@ loguru==0.6.0
 pip==22.0.4
 psycopg2==2.9.3
 python-dotenv==0.20.0
+python-dotenv==0.20.0
