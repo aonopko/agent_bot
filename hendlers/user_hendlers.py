@@ -38,24 +38,35 @@ async def answer_initial_readings(message: types.Message,
     answer = message.text
 
     async with state.proxy() as data:
-        data["initial_readings"] = answer
-    await message.answer("enter final_readings")
-    await Route.next()
+        try:
+            data["initial_readings"] = int(answer)
+        except ValueError:
+            await message.reply("Enter integer")
+
+        else:
+            await bot.send_message(message.from_user.id, "Enter final_readings")
+            await Route.next()
 
 
 @dp.message_handler(state=Route.final_readings)
 async def answer_final_readings(message: types.Message,
                                 state: FSMContext):
     answer = message.text
-
     async with state.proxy() as data:
-        data["final_readings"] = answer
+        try:
+            data["final_readings"] = int(answer)
+        except ValueError:
+            await message.reply("Enter integer")
+        else:
+            await Route.next()
+            await message.reply("Data is add")
+
     initial_readings = data.get("initial_readings")
     final_readings = data.get("final_readings")
-    difference_readings = int(final_readings) - int(initial_readings)
+    difference_readings = final_readings - initial_readings
     try:
-        await db.add_route(initial_readings=int(initial_readings),
-                           final_readings=int(final_readings),
+        await db.add_route(initial_readings=initial_readings,
+                           final_readings=final_readings,
                            id_agent=message.from_user.id,
                            difference_readings=difference_readings)
     except DataError:
