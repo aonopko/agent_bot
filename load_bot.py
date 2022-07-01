@@ -5,14 +5,14 @@ from hendlers import dp
 
 
 async def on_startup(dispatcher):
-    logger.info('Создаем подключение')
+    logger.info('Створюємо підключення')
     await db.create()
 
-    logger.info('Создаем таблицу')
+    logger.info('Створюємо таблицю агентів')
     await db.create_table_agent()
     logger.info('Готово')
 
-    logger.info('Создаем таблицу маршрута')
+    logger.info('Створюємо таблицю маршруту')
     await db.create_table_route_sheet()
     logger.info('Готово')
 

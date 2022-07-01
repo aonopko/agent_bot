@@ -9,10 +9,10 @@ from states import Route
 
 @dp.message_handler(Command("start"))
 async def start(message: types.Message):
-    await message.answer('HI AGENT', reply_markup=menu)
+    await message.answer('Привіт агент', reply_markup=menu)
 
 
-@dp.message_handler(text="add agent")
+@dp.message_handler(text="Додати агента")
 async def new_agent(message: types.Message):
     try:
         await db.add_agent(
@@ -20,14 +20,14 @@ async def new_agent(message: types.Message):
             telegram_id=message.from_user.id)
     except UniqueViolationError:
         await bot.send_message(message.from_user.id,
-                               f"Agent {message.from_user.id} exists ")
+                               f"Agent {message.from_user.id} існує")
     else:
-        await message.reply('Agent is add')
+        await message.reply('Агента додано')
 
 
-@dp.message_handler(text="add route")
+@dp.message_handler(text="Додати маршрут")
 async def enter_route(message: types.Message):
-    await message.answer("enter initial_readings")
+    await message.answer("Додайте початкові дані")
 
     await Route.initial_readings.set()
 
@@ -41,10 +41,10 @@ async def answer_initial_readings(message: types.Message,
         try:
             data["initial_readings"] = int(answer)
         except ValueError:
-            await message.reply("Enter integer")
+            await message.reply("Потрібно ввести число")
 
         else:
-            await bot.send_message(message.from_user.id, "Enter final_readings")
+            await bot.send_message(message.from_user.id, "Додайте кінцеві дані")
             await Route.next()
 
 
@@ -56,10 +56,10 @@ async def answer_final_readings(message: types.Message,
         try:
             data["final_readings"] = int(answer)
         except ValueError:
-            await message.reply("Enter integer")
+            await message.reply("Потрібно ввести число")
         else:
+            await bot.send_message(message.from_user.id, "Додано кінцеві дані")
             await Route.next()
-            await message.reply("Data is add")
 
     initial_readings = data.get("initial_readings")
     final_readings = data.get("final_readings")
@@ -70,7 +70,7 @@ async def answer_final_readings(message: types.Message,
                            id_agent=message.from_user.id,
                            difference_readings=difference_readings)
     except DataError:
-        await bot.send_message(message.from_user.id, "Error")
+        await bot.send_message(message.from_user.id, "Помилка")
 
-    await message.answer("data is enter")
+    await message.answer("Дані маршруту додано")
     await state.finish()

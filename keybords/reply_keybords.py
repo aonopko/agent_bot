@@ -4,8 +4,8 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 menu = ReplyKeyboardMarkup(
     keyboard=[
         [
-            KeyboardButton(text='add agent'),
-            KeyboardButton(text='add route')
+            KeyboardButton(text='Додати агента'),
+            KeyboardButton(text='Додати маршрут')
         ]
     ],
     resize_keyboard=True
