@@ -60,10 +60,11 @@ async def answer_final_readings(message: types.Message,
         else:
             await bot.send_message(message.from_user.id, "Додано кінцеві дані")
             await Route.next()
+            await state.finish()
 
     initial_readings = data.get("initial_readings")
     final_readings = data.get("final_readings")
-    difference_readings = final_readings - initial_readings
+    difference_readings = int(final_readings) - int(initial_readings)
     try:
         await db.add_route(initial_readings=initial_readings,
                            final_readings=final_readings,
@@ -73,4 +74,4 @@ async def answer_final_readings(message: types.Message,
         await bot.send_message(message.from_user.id, "Помилка")
 
     await message.answer("Дані маршруту додано")
-    await state.finish()
+

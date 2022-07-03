@@ -57,9 +57,9 @@ class Database:
         CREATE TABLE IF NOT EXISTS route_sheet (
         id_agent BIGINT,
         date DATE DEFAULT NOW(),
-        initial_readings BIGINT,
-        final_readings BIGINT,
-        difference_readings BIGINT
+        initial_readings INT,
+        final_readings INT,
+        difference_readings INT
         );
         """
         await self.execute(sql, execute=True)
