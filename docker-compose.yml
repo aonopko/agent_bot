@@ -1,0 +1,31 @@
+version: "20.10.12"
+
+services:
+  db:
+    container_name: telegram_bot
+    image: sameersbn/postgresql:10-2
+    environment:
+      PG_PASSWORD: $DB_PASSWORD
+    restart: always
+    ports:
+      - 5432:5432
+    networks:
+      - botnet
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+
+  tgbot:
+    container_name: bot
+    build:
+      context: .
+    command: python3 load_bot.py
+    networks:
+      - botnet
+    env_file:
+      - ".env"
+    volumes:
+      - .:/src
+
+networks:
+  botnet:
+    driver: bridge
