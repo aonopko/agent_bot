@@ -12,7 +12,7 @@ async def start(message: types.Message):
     await message.answer('Привіт агент', reply_markup=menu)
 
 
-@dp.message_handler(text="Додати агента")
+@dp.message_handler(text="Меню")
 async def new_agent(message: types.Message):
     try:
         await db.add_agent(
@@ -23,6 +23,8 @@ async def new_agent(message: types.Message):
                                f"Agent {message.from_user.id} існує")
     else:
         await message.reply('Агента додано')
+
+@dp.message_handler()
 
 
 @dp.message_handler(text="Додати маршрут")
