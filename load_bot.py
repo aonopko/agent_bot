@@ -1,20 +1,14 @@
 from loguru import logger
 from aiogram import executor
-from create_bot import db
-from hendlers import dp
+from create_bot import dp
+from postgresql import create_db
 
 
 async def on_startup(dispatcher):
-    logger.info('Створюємо підключення')
-    await db.create()
+    logger.info('Create connection')
+    await create_db()
+    logger.info('Connection complete')
 
-    logger.info('Створюємо таблицю агентів')
-    await db.create_table_agent()
-    logger.info('Готово')
-
-    logger.info('Створюємо таблицю маршруту')
-    await db.create_table_route_sheet()
-    logger.info('Готово')
 
 
 if __name__ == '__main__':
