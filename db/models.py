@@ -1,12 +1,28 @@
-from sqlalchemy import sql, Column, Integer
-from postgresql import db
+
+import asyncio
+from .postgresql import db
+from .var_for_db import POSTGRES_URI
+
+
+class User(db.Model):
+    __tablename__ = "users"
+    id = db.Column(db.Integer, primary_key=True, unique=True)
+    user_name = db.Column(db.String(255))
 
 
 class Route(db.Model):
     __tablename__ = "route_sheet"
-    query: sql.Select
-    id = Column(Integer, primary_key=True)
-    initial_readings = Column(Integer)
-    final_readings = Column(Integer)
+    user_id = db.Column(db.ForeignKey(f"{User.__tablename__}.id"))
+    initial_readings = db.Column(db.Integer)
+    final_readings = db.Column(db.Integer)
+    value_difference = db.Column(db.Integer)
+    fuel = db.Column(db.Integer)
+    route = db.Column(db.String(255))
 
-    query: sql.Select
+
+async def create_db():
+    await db.set_bind(POSTGRES_URI)
+    await db.gino.create_all()
+
+
+loop = asyncio.get_event_loop().run_until_complete(create_db())

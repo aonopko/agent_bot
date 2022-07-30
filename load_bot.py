@@ -1,7 +1,7 @@
 from loguru import logger
 from aiogram import executor
 from create_bot import dp
-from postgresql import create_db
+from db.models import create_db
 
 
 async def on_startup(dispatcher):
