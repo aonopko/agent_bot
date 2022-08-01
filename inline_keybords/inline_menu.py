@@ -1,16 +1,14 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from inline_keybords.callbacks import route_callback
+from inline_keybords.callbacks import agent_callback
 
-route_kb = InlineKeyboardMarkup(row_width=2,
-                               inline_keybords=[
+agent_kb = InlineKeyboardMarkup(row_width=2,
+                               inline_keyboard=[
                                    [
-                                       InlineKeyboardButton(text="Початкові дані",
-                                                            callback_data=route_callback.new(
-                                                                initial_readings="initial_readings")
+                                       InlineKeyboardButton(text="Додати агента",
+                                                            callback_data=agent_callback.new(
+                                                                add_agent="add_agent")
                                                             ),
-                                       InlineKeyboardButton(text="Кінцеві дані",
-                                                            callback_data=route_callback.new(
-                                                                final_readings="final_readings"
-                                                            ))
+                                       InlineKeyboardButton(text="Видалити агента",
+                                                            callback_data="del_agent")
                                    ]
                                ])
