@@ -5,7 +5,7 @@ menu = ReplyKeyboardMarkup(
     keyboard=[
         [
             KeyboardButton(text='Агенти'),
-            KeyboardButton(text='Маршрут'),
+            KeyboardButton(text='Маршрути'),
             KeyboardButton(text='Кліенти')
         ]
     ],
