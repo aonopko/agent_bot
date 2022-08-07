@@ -9,6 +9,8 @@ agent_kb = InlineKeyboardMarkup(row_width=2,
                                                                 add_agent="add_agent")
                                                             ),
                                        InlineKeyboardButton(text="Видалити агента",
-                                                            callback_data="del_agent")
+                                                            callback_data=agent_callback.new(
+                                                                del_agent="del_agent"
+                                                            ))
                                    ]
                                ])

@@ -2,6 +2,7 @@ from loguru import logger
 from aiogram import executor
 from create_bot import dp
 from db.models import create_db
+import hendlers
 
 
 async def on_startup(dispatcher):
