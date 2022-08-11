@@ -4,7 +4,7 @@ from .postgresql import db
 from .var_for_db import POSTGRES_URI
 
 
-class User(db.Model):
+class Agent(db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True, unique=True)
     user_name = db.Column(db.String(255))
@@ -12,7 +12,7 @@ class User(db.Model):
 
 class Route(db.Model):
     __tablename__ = "route_sheet"
-    user_id = db.Column(db.ForeignKey(f"{User.__tablename__}.id"))
+    user_id = db.Column(db.ForeignKey(f"{Agent.__tablename__}.id"))
     initial_readings = db.Column(db.Integer)
     final_readings = db.Column(db.Integer)
     value_difference = db.Column(db.Integer)
