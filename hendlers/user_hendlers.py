@@ -19,8 +19,7 @@ async def start(message: types.Message):
     await message.answer(text, reply_markup=agent_kb)
 
 
-@dp.callback_query_handler(agent_callback.filter(id_agent=123))
-async def add_agent(call: CallbackQuery, callback_data: dict):
-    await call.answer(text="Добавляем")
-    agent_name = callback_data.get("agent_name")
+@dp.callback_query_handler(agent_callback.filter())
+async def add_agent(call: types.CallbackQuery, callback_data: dict):
+    agent_name = callback_data.get("id_agent")
     await call.message.answer(f"{agent_name}")
