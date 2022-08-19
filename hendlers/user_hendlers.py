@@ -2,10 +2,7 @@ from aiogram import types
 from aiogram.dispatcher.filters import Text
 from aiogram.types import CallbackQuery
 
-from states.route_state import Agent
 from keybords.reply_keybords import menu
-#from inline_keybords.inline_menu import agent_kb
-from inline_keybords.callbacks import agent_callback
 from load_bot import dp
 
 
@@ -31,6 +28,9 @@ async def start(message: types.Message):
 
 
 @dp.callback_query_handler(Text(startswith="add_agent"))
-async def add_agent(call: types.CallbackQuery, callback_data: dict):
-    agent_name = callback_data.get("id_agent")
-    await call.message.answer(f"{agent_name}")
+async def add_agent(call: types.CallbackQuery):
+    id_agent = call.from_user.id
+    name_agent = call.from_user.full_name
+    await call.message.answer(f"{id_agent}, {name_agent}")
+
+@dp.message_handler()
