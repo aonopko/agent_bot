@@ -1,3 +1,3 @@
-from .user_hendlers import dp
+from .agent_menu import dp
 
 __all__ = ["dp"]
