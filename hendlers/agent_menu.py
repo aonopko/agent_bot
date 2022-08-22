@@ -3,7 +3,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
 
 from db.db_commands import add_agent
-from states.route_state import Agent
+from states.route_state import AgentState
 from keybords.reply_keybords import menu
 from load_bot import dp
 
@@ -31,30 +31,27 @@ async def start(message: types.Message):
 
 
 @dp.callback_query_handler(Text(startswith="add_agent"))
-async def add_agent(call: types.CallbackQuery):
+async def add_agent_name(call: types.CallbackQuery):
     await call.message.answer("Введіть Ім'я")
     await call.answer()
 
-    await Agent.agent_name.set()
+    await AgentState.agent_name.set()
 
 
-@dp.message_handler(state=Agent.agent_name)
-async def add_agent_name(message: types.Message, state: FSMContext):
+@dp.message_handler(state=AgentState.agent_name)
+async def add_id_agent(message: types.Message, state: FSMContext):
     agent_name = message.text
     async with state.proxy() as data:
         data["agent_name"] = agent_name
 
-    await Agent.id_agent.set()
+    await AgentState.id_agent.set()
     await message.answer("Потрібно ввести ОК для завершення")
 
 
-@dp.message_handler(state=Agent.id_agent)
-async def add_id_agent(message: types.Message, state: FSMContext):
+@dp.message_handler(state=AgentState.id_agent)
+async def get_id_name(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data["id_agent"] = message.from_user.id
-        await message.answer(data)
-        id_agent = data.get("id_agent")
-        name_agent = data.get("agent_name")
-        await add_agent(agent_id=id_agent,
-                        agent_name=name_agent)
+    await add_agent(agent_id=data.get("id_agent"),
+                    agent_name=data.get("agent_name"))
     await message.answer("Ваш id додано")
