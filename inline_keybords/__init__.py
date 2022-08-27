@@ -1,1 +1,1 @@
-from . import callbacks, inline_menu
+from . import callbacks, inline_kb
