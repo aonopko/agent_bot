@@ -3,6 +3,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
 from asyncpg.exceptions import UniqueViolationError
 
+from inline_keybords.inline_kb import get_agent_kb, button_ok
 from db.db_commands import add_agent
 from states.route_state import AgentState
 from keybords.reply_keybords import menu
@@ -15,28 +16,10 @@ async def start(message: types.Message):
     await message.answer(text, reply_markup=menu)
 
 
-def get_agent_kb():
-    buttons = [
-        types.InlineKeyboardButton(text="Додати агента", callback_data="add_agent"),
-        types.InlineKeyboardMarkup(text="Видалити агента", callback_data="del_agent")
-    ]
-    keyboard = types.InlineKeyboardMarkup(row_width=2)
-    keyboard.add(*buttons)
-    return keyboard
-
-
-def button_ok():
-    button = [types.InlineKeyboardButton(text="OK",
-                                         callback_data="OK")]
-    keyboard = types.InlineKeyboardMarkup(row_width=2)
-    keyboard.add(*button)
-    return keyboard
-
-
 @dp.message_handler(text="Агент")
 async def start(message: types.Message):
-    text = message.text
-    await message.answer(text, reply_markup=get_agent_kb())
+    await message.answer(text="МЕНЮ АГЕНТА",
+                         reply_markup=get_agent_kb())
 
 
 @dp.callback_query_handler(Text(startswith="add_agent"))
@@ -70,6 +53,5 @@ async def get_id_name(call: types.CallbackQuery, state: FSMContext):
                                  reply_markup=menu)
     else:
         await call.message.reply("Ваш id додано")
-        await call.answer()
-
+    await call.answer()
     await state.finish()
