@@ -1,3 +1,3 @@
-from .agent_menu import dp
+from .add_agent import dp
 
 __all__ = ["dp"]

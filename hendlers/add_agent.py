@@ -25,6 +25,14 @@ def get_agent_kb():
     return keyboard
 
 
+def button_ok():
+    button = [types.InlineKeyboardButton(text="OK",
+                                         callback_data="OK")]
+    keyboard = types.InlineKeyboardMarkup(row_width=2)
+    keyboard.add(*button)
+    return keyboard
+
+
 @dp.message_handler(text="Агент")
 async def start(message: types.Message):
     text = message.text
@@ -43,23 +51,25 @@ async def add_id_agent(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data["agent_name"] = message.text
         await AgentState.id_agent.set()
-        button = types.InlineKeyboardButton(text="OK",
-                                            callback_data="OK")
-        await message.answer(f"Натисніть {button} для завершення")
+        await message.answer(f"Натисніть  OK для завершення",
+                             reply_markup=button_ok())
 
 
-@dp.message_handler(state=AgentState.id_agent)
-async def get_id_name(message: types.Message, state: FSMContext):
+@dp.callback_query_handler(Text(startswith="OK"),
+                           state=AgentState.id_agent)
+async def get_id_name(call: types.CallbackQuery, state: FSMContext):
     async with state.proxy() as data:
-        data["id_agent"] = message.from_user.id
-        get_id = data.get("id_agent")
+        data["id_agent"] = call.from_user.id
     try:
         await add_agent(agent_id=data.get("id_agent"),
                         agent_name=data.get("agent_name"))
     except UniqueViolationError:
-        await message.answer(f"УВАГА\n"
-                             f"Агент з id {get_id} існує")
+        get_id = data.get("id_agent")
+        await call.message.reply(f"УВАГА\n"
+                                 f"Агент з id {get_id} існує",
+                                 reply_markup=menu)
     else:
-        await message.answer("Ваш id додано")
+        await call.message.reply("Ваш id додано")
+        await call.answer()
 
     await state.finish()
