@@ -52,6 +52,6 @@ async def get_id_name(call: types.CallbackQuery, state: FSMContext):
                                  f"Агент з id {get_id} існує",
                                  reply_markup=menu)
     else:
-        await call.message.reply("Ваш id додано")
+        await call.message.answer(f"Агент с ID {data.get('id_agent')} додано")
     await call.answer()
     await state.finish()
