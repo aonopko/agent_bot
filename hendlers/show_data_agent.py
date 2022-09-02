@@ -2,12 +2,12 @@ from aiogram import types
 from aiogram.dispatcher.filters import Text
 
 from load_bot import dp
+from db.db_commands import show_data_agent
 
 
 @dp.callback_query_handler(Text(startswith="data_agent"))
-async def delete_agent(call: types.CallbackQuery):
-    name_agent = call.from_user.full_name
+async def show_dat_agent(call: types.CallbackQuery):
     id_agent = call.from_user.id
-    await call.message.answer(f"Ім'я {name_agent}\n"
-                              f"ID {id_agent}")
+    show_data = await show_data_agent(agent_id=id_agent)
+    await call.message.answer(f"Ім'я {show_data} ok and ok")
     await call.answer()

@@ -11,6 +11,5 @@ async def del_agent(agent_id):
     await user.delete()
 
 
-async def show_data_agent(agent_id):
+async def show_data_agent(agent_id: int):
     await Agent.query.where(Agent.agent_id == agent_id).gino.all()
-

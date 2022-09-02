@@ -1,5 +1,8 @@
 
 import asyncio
+
+from sqlalchemy import sql
+
 from .postgresql import db
 from .var_for_db import POSTGRES_URI
 
@@ -8,6 +11,8 @@ class Agent(db.Model):
     __tablename__ = "users"
     agent_id = db.Column(db.Integer, primary_key=True, unique=True)
     agent_name = db.Column(db.String(255))
+
+    query: sql.Select
 
 
 class Route(db.Model):
@@ -18,6 +23,9 @@ class Route(db.Model):
     value_difference = db.Column(db.Integer)
     fuel = db.Column(db.Integer)
     route = db.Column(db.String(255))
+
+    query: sql.Select
+
 
 
 async def create_db():
