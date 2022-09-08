@@ -3,11 +3,11 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
 from asyncpg.exceptions import UniqueViolationError
 
-from inline_keybords.inline_kb import get_agent_kb, button_ok
-from db.db_commands import add_agent
-from states.route_state import AgentState
-from keybords.reply_keybords import menu
-from load_bot import dp
+
+from arles.inline_keybords.inline_kb import get_agent_kb, button_ok
+from arles.states.route_state import AgentState
+from arles.keybords.reply_keybords import menu
+from arles.load_bot import dp
 
 
 @dp.message_handler(text="/start")

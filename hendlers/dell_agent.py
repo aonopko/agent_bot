@@ -1,8 +1,8 @@
 from aiogram import types
 from aiogram.dispatcher.filters import Text
 
-from load_bot import dp
-from db.db_commands import del_agent
+from arles.load_bot import dp
+
 
 
 @dp.callback_query_handler(Text(startswith="del_agent"))

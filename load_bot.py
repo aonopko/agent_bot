@@ -1,15 +1,15 @@
 from loguru import logger
 from aiogram import executor
 
-from create_bot import dp
-from db.models import create_db
-from create_bot import db
+from create_bot import dp, db
 import hendlers
 
 
 async def on_startup(dispatcher):
     logger.info('Create connection')
-    await create_db()
+    await db.create()
+    await db.create_table_agent()
+    await db.create_table_route_sheet()
     logger.info('Connection complete')
 
 
