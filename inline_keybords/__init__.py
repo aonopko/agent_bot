@@ -1,1 +1,1 @@
-from . import callbacks, inline_kb
+from .inline_kb import get_agent_kb
