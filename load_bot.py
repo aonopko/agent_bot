@@ -1,3 +1,7 @@
+import os
+
+from telegrambot.manage import main
+import django
 from loguru import logger
 from aiogram import executor
 
@@ -7,11 +11,15 @@ import hendlers
 
 async def on_startup(dispatcher):
     logger.info('Create connection')
-    await db.create()
-    await db.create_table_agent()
-    await db.create_table_route_sheet()
     logger.info('Connection complete')
 
 
+def setup_django():
+    logger.info("CREATE DJANGO CONNECTION")
+    main()
+    logger.info("DJANGO WAS CONNECT")
+
+
 if __name__ == '__main__':
+    setup_django()
     executor.start_polling(dp, skip_updates=True, on_startup=on_startup)
