@@ -1,6 +1,5 @@
 import os
 
-from telegrambot.manage import main
 import django
 from loguru import logger
 from aiogram import executor
@@ -9,14 +8,18 @@ from create_bot import dp, db
 import hendlers
 
 
-async def on_startup(dispatcher):
+async def on_startup(dp):
     logger.info('Create connection')
     logger.info('Connection complete')
 
 
 def setup_django():
     logger.info("CREATE DJANGO CONNECTION")
-    main()
+    os.environ.setdefault(
+        "DJANGO_SETTINGS_MODULE",
+        "telegrambot.django_project.settings"
+    )
+    os.environ.update({"DJANGO_ALLOW_ASYNC_UNSAFE": "true"})
     logger.info("DJANGO WAS CONNECT")
 
 
