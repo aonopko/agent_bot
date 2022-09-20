@@ -12,8 +12,7 @@ from arles.load_bot import dp
 
 @dp.message_handler(text="/start")
 async def start(message: types.Message):
-    text = message.text
-    await message.answer(text, reply_markup=menu)
+    await message.answer(text="Бот Запущен", reply_markup=menu)
 
 
 @dp.message_handler(text="Агент")
