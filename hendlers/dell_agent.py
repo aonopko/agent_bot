@@ -1,7 +1,7 @@
 from aiogram import types
 from aiogram.dispatcher.filters import Text
 
-from arles.load_bot import dp
+from load_bot import dp
 
 
 

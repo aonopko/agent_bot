@@ -21,7 +21,7 @@ def setup_django():
     )
     os.environ.update({"DJANGO_ALLOW_ASYNC_UNSAFE": "true"})
     django.setup()
-    logger.info("Django connect finishd")
+    logger.info("Django connect finished")
 
 
 
