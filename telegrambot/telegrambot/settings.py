@@ -11,20 +11,21 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import environ
 import os
 import sys
 
-sys.path.append('/home/sleypner/pythonProject/arles')
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+# Set the project base directory
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = (os.getenv('SECRET_KEY'))
+# Take environment variables from .env file
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -84,7 +85,7 @@ DATABASES = {
         'USER': (os.getenv('DB_USER')),
         'PASSWORD': (os.getenv('DB_PASSWORD')),
         'HOST': (os.getenv('DB_HOST')),
-        'PORT': (os.getenv('PORT')),
+        'PORT': (os.getenv('PORT'))
     }
 }
 
