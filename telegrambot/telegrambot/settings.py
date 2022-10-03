@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'usersmanage'
+    'telegrambot.usersmanage'
 ]
 
 
@@ -56,7 +56,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'telegrambot.urls'
+ROOT_URLCONF = 'telegrambot.telegrambot.urls'
 
 TEMPLATES = [
     {
@@ -74,7 +74,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'telegrambot.wsgi.application'
+WSGI_APPLICATION = 'telegrambot.telegrambot.wsgi.application'
 
 
 # Database
