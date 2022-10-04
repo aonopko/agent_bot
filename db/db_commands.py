@@ -8,6 +8,7 @@ def select_user(telegram_id: int):
     user = User.object.filter(telegram_id=telegram_id).first()
     return user
 
+
 @sync_to_async
 def add_user(user_name, telegram_id):
     try:
