@@ -4,6 +4,7 @@ from aiogram.dispatcher.filters import Text
 from asyncpg.exceptions import UniqueViolationError
 
 
+from db.db_commands import add_user
 from inline_keybords.inline_kb import get_agent_kb, button_ok
 from states.route_state import AgentState
 from keybords.reply_keybords import menu
@@ -37,20 +38,20 @@ async def add_id_agent(message: types.Message, state: FSMContext):
                              reply_markup=button_ok())
 
 
-#@dp.callback_query_handler(Text(startswith="OK"),
-                           #state=AgentState.id_agent)
-#async def get_id_name(call: types.CallbackQuery, state: FSMContext):
-    #async with state.proxy() as data:
-        #data["id_agent"] = call.from_user.id
-    #try:
-        #await add_agent(agent_id=data.get("id_agent"),
-                        #agent_name=data.get("agent_name"))
-    #except UniqueViolationError:
-        #get_id = data.get("id_agent")
-        #await call.message.reply(f"УВАГА\n"
-                                 #f"Агент з id {get_id} існує",
-                                 #reply_markup=menu)
-    #else:
-        #await call.message.answer(f"Агент с ID {data.get('id_agent')} додано")
-    #await call.answer()
+@dp.callback_query_handler(Text(startswith="OK"),
+                           state=AgentState.id_agent)
+async def get_id_name(call: types.CallbackQuery, state: FSMContext):
+    async with state.proxy() as data:
+        data["id_agent"] = call.from_user.id
+    try:
+        await add_user(user_name=data.get("agent_name"),
+                       telegram_id=data.get("id_agent"))
+    except UniqueViolationError:
+        get_id = data.get("id_agent")
+        await call.message.reply(f"УВАГА\n"
+                                f"Агент з id {get_id} існує",
+                                reply_markup=menu)
+    else:
+        await call.message.answer(f"Агент с ID {data.get('id_agent')} додано")
+    await call.answer()
     await state.finish()
