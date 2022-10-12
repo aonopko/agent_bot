@@ -1,5 +1,6 @@
 from telegrambot.users.models import User
 
+
 from asgiref.sync import sync_to_async
 
 
