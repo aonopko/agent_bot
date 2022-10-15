@@ -9,7 +9,7 @@ import hendlers
 
 
 async def on_startup(dispatcher):
-    logger.info("Create connection")
+
     logger.info("Connection complete")
 
 

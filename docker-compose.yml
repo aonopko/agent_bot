@@ -23,7 +23,7 @@ services:
     networks:
       - botnet
     env_file:
-      - ".env"
+      - "telegrambot/.env"
     volumes:
       - .:/src
 
